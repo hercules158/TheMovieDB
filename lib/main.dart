@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'package:movies/view/home_view.dart';
 
-
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
