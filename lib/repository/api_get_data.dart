@@ -14,25 +14,6 @@ class HomeRepository {
       final json = jsonDecode(response.body);
       var results = json['results'];
 
-      for (int i = 2; i <= numPage; i++) {
-        results =
-            results + await fetchAux(i); //Recebe o resultado das n paginas
-      }
-      return results;
-    } else {
-      throw Exception('Erro ao carregar dados do Servidor!');
-    }
-  }
-
-  Future<List> fetchAux(int i) async {
-    var secURL = '&page=';
-    var page = i.toString();
-    var response =
-        await http.get(Uri.parse(BaseURL.urlPopular + lang + secURL + page));
-
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      var results = json['results'];
       return results;
     } else {
       throw Exception('Erro ao carregar dados do Servidor!');

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:movies/repository/api_get_data.dart';
 import 'details_view.dart';
 
-
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
@@ -28,7 +27,7 @@ class _SearchPage extends State<SearchPage> {
         title: const Text('Pesquisar Filmes'),
         centerTitle: true,
       ),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[850],
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -39,10 +38,15 @@ class _SearchPage extends State<SearchPage> {
                 _updateSearch(value);
               },
               decoration: const InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white)),
+                counterStyle: TextStyle(color: Colors.white),
                 border: OutlineInputBorder(),
                 labelText: 'Pesquisar',
-                prefixIcon: Icon(Icons.search),
+                labelStyle: TextStyle(color: Colors.white),
+                prefixIcon: Icon(Icons.search, color: Colors.white),
               ),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
           Expanded(
@@ -72,16 +76,22 @@ class _SearchPage extends State<SearchPage> {
                           'https://image.tmdb.org/t/p/w400${movie['poster_path']}';
 
                       return Card(
+                        color: Colors.black,
                         child: ListTile(
                           title: Text(
                             '$title',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                                decoration: TextDecoration.underline),
+                                decoration: TextDecoration.underline,
+                                color: Colors.white),
                           ),
                           subtitle: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(overview, textAlign: TextAlign.center),
+                            child: Text(
+                              overview,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.white),
+                            ),
                           ),
                           onTap: () {
                             Navigator.push(
@@ -101,7 +111,11 @@ class _SearchPage extends State<SearchPage> {
                   );
                 }
                 if (!snapshot.hasData) {
-                  return const Center(child: Text('Pesquise um filme'));
+                  return const Center(
+                      child: Text(
+                    'Pesquise um filme',
+                    style: TextStyle(color: Colors.white),
+                  ));
                 } else {
                   return const Center(
                     child: CircularProgressIndicator(),
@@ -115,7 +129,6 @@ class _SearchPage extends State<SearchPage> {
     );
   }
 }
-
 
 /*
 TextFormField(
