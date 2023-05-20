@@ -3,20 +3,34 @@ import 'package:http/http.dart' as http;
 import '../const/base_url.dart';
 
 class HomeRepository {
-
   var lang = '&language=pt-BR';
 
-  Future<List> fetch(int numPage) async {
-    var secURL = '&language=pt-BR&page=$numPage';
-    var response = await http.get(Uri.parse(BaseURL.urlPopular + secURL));
+  Future<List> fetch(int numPage, int genreCode) async {
+    if (genreCode == 0) {
+      var secURL = '&language=pt-BR&page=$numPage';
+      var response = await http.get(Uri.parse(BaseURL.urlPopular + secURL));
 
-    if (response.statusCode == 200) {
-      final json = jsonDecode(response.body);
-      var results = json['results'];
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        var results = json['results'];
 
-      return results;
+        return results;
+      } else {
+        throw Exception('Erro ao carregar dados do Servidor!');
+      }
     } else {
-      throw Exception('Erro ao carregar dados do Servidor!');
+      print("entrou api genero");
+      var secURL = '&language=pt-BR&page=$numPage';
+      var response = await http.get(Uri.parse(BaseURL.urlGenreHot + genreCode.toString() + secURL));
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        var results = json['results'];
+
+        return results;
+      } else {
+        throw Exception('Erro ao carregar dados do Servidor!');
+      }
     }
   }
 
