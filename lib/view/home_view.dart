@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies/repository/api_get_data.dart';
 import 'package:movies/view/details_view.dart';
+import 'package:movies/view/movie_list.dart';
 import 'search_view.dart';
 
 class Results {
@@ -27,6 +28,7 @@ class HomeState extends ChangeNotifier {
 
 class HomePage extends StatefulWidget {
   final int genreCode;
+
   const HomePage({super.key, required this.genreCode});
 
   @override
@@ -39,7 +41,6 @@ class _HomePageState extends State<HomePage> {
   var page = 1;
   static final homeRepository = HomeRepository();
   final homeState = HomeState();
-
   final int genreCode;
 
   _HomePageState({required this.genreCode});
@@ -90,7 +91,7 @@ class _HomePageState extends State<HomePage> {
         break;
       case 53:
         {
-          genre = "Filmes de suspense";
+          genre = "Filmes Thriller";
         }
         break;
       case 80:
@@ -209,6 +210,15 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               ListTile(
+                title: const Text('Minha lista de filmes'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MoviesList()),
+                  );
+                },
+              ),
+              ListTile(
                 title: const Text('Pesquisar'),
                 onTap: () {
                   Navigator.push(
@@ -287,8 +297,8 @@ class _HomePageState extends State<HomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const HomePage(
-                              genreCode: 99,
-                            )),
+                                  genreCode: 99,
+                                )),
                       );
                     },
                   ),
@@ -437,7 +447,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   ListTile(
-                    title: const Text('Suspense'),
+                    title: const Text('Thriller'),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -486,17 +496,21 @@ class _HomePageState extends State<HomePage> {
                           '$title',
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                            decoration: TextDecoration.underline,
                             color: Colors.white,
+                            fontSize: 19,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Text(
-                            overview,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(color: Colors.white),
+                        subtitle: Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              overview,
+                              maxLines: 4,
+                              overflow: TextOverflow.fade,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                         onTap: () {

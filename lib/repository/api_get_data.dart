@@ -7,7 +7,7 @@ class HomeRepository {
 
   Future<List> fetch(int numPage, int genreCode) async {
     if (genreCode == 0) {
-      var secURL = '&language=pt-BR&page=$numPage';
+      var secURL = '&language=pt-BR&page=$numPage&sort_by=popularity.desc';
       var response = await http.get(Uri.parse(BaseURL.urlPopular + secURL));
 
       if (response.statusCode == 200) {
