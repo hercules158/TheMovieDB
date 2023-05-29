@@ -501,8 +501,7 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        subtitle: Flexible(
-                          child: Padding(
+                        subtitle: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
                               overview,
@@ -512,7 +511,7 @@ class _HomePageState extends State<HomePage> {
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),
-                        ),
+
                         onTap: () {
                           Navigator.push(
                             context,
