@@ -51,7 +51,7 @@ class _MoviesList extends State<MoviesList> {
               child: ListTile(
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
+                  children: [
                     Flexible(
                       flex: 19,
                       child: Text(

@@ -13,20 +13,31 @@ class HomeRepository {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         var results = json['results'];
+        return results;
+      } else {
+        throw Exception('Erro ao carregar dados do Servidor!');
+      }
+    } else if (genreCode == 69) {
+      //Tendencia (Filmes, Series e Pessoas)
+      var secURL = '&language=pt-BR&page=$numPage&sort_by=popularity.desc';
+      var response =
+          await http.get(Uri.parse(BaseURL.urlTrendingWeekMix + secURL));
 
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        var results = json['results'];
         return results;
       } else {
         throw Exception('Erro ao carregar dados do Servidor!');
       }
     } else {
-      print("entrou api genero");
       var secURL = '&language=pt-BR&page=$numPage';
-      var response = await http.get(Uri.parse(BaseURL.urlGenreHot + genreCode.toString() + secURL));
+      var response = await http
+          .get(Uri.parse(BaseURL.urlGenreHot + genreCode.toString() + secURL));
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         var results = json['results'];
-
         return results;
       } else {
         throw Exception('Erro ao carregar dados do Servidor!');

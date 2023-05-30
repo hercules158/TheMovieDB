@@ -45,106 +45,111 @@ class _HomePageState extends State<HomePage> {
 
   _HomePageState({required this.genreCode});
 
-  String genre = "";
+  String genreOrId = "";
 
   genreTable() {
     switch (genreCode) {
       case 12:
         {
-          genre = "Filmes de Aventura";
+          genreOrId = "Filmes de Aventura";
         }
         break;
       case 14:
         {
-          genre = "Filmes de Fantasia";
+          genreOrId = "Filmes de Fantasia";
         }
         break;
       case 16:
         {
-          genre = "Filmes de Animação";
+          genreOrId = "Filmes de Animação";
         }
         break;
       case 18:
         {
-          genre = "Filmes de Drama";
+          genreOrId = "Filmes de Drama";
         }
         break;
       case 27:
         {
-          genre = "Filmes de Horror";
+          genreOrId = "Filmes de Horror";
         }
         break;
       case 35:
         {
-          genre = "Filmes de Comédia";
+          genreOrId = "Filmes de Comédia";
         }
         break;
       case 36:
         {
-          genre = "Filmes de História";
+          genreOrId = "Filmes de História";
         }
         break;
       case 37:
         {
-          genre = "Filmes de Faroeste";
+          genreOrId = "Filmes de Faroeste";
         }
         break;
       case 53:
         {
-          genre = "Filmes Thriller";
+          genreOrId = "Filmes Thriller";
+        }
+        break;
+      case 69:
+        {
+          genreOrId = "Tendências da Última Semana";
         }
         break;
       case 80:
         {
-          genre = "Filmes de Crime";
+          genreOrId = "Filmes de Crime";
         }
         break;
       case 99:
         {
-          genre = "Documentários";
+          genreOrId = "Documentários";
         }
         break;
       case 878:
         {
-          genre = "Filmes Ficção Científica";
+          genreOrId = "Filmes Ficção Científica";
         }
         break;
       case 9648:
         {
-          genre = "Filmes de Mistério";
+          genreOrId = "Filmes de Mistério";
         }
         break;
       case 10402:
         {
-          genre = "Filmes Musicais";
+          genreOrId = "Filmes Musicais";
         }
         break;
       case 10749:
         {
-          genre = "Filmes de Romance";
+          genreOrId = "Filmes de Romance";
         }
         break;
       case 10751:
         {
-          genre = "Filmes para Família";
+          genreOrId = "Filmes para Família";
         }
         break;
       case 10752:
         {
-          genre = "Filmes de Guerra";
+          genreOrId = "Filmes de Guerra";
         }
         break;
       case 10770:
         {
-          genre = "Filmes de Séries";
+          genreOrId = "Filmes de Séries";
         }
         break;
       default:
         {
-          genre = "Filmes Em Alta";
+          genreOrId = "Filmes Em Alta";
         }
     }
-    return genre;
+    return genreOrId;
   }
 
   @override
@@ -168,7 +173,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(genre),
+          title: Text(genreOrId),
           centerTitle: true,
         ),
         drawer: Drawer(
@@ -206,6 +211,18 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => const HomePage(
                               genreCode: 0,
                             )),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Tendencia da Última Semana (Filmes, Séries e Pessoas)'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomePage(
+                          genreCode: 69,
+                        )),
                   );
                 },
               ),
@@ -481,11 +498,11 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   if (index < updateResponse.length) {
                     final movie = snapshot.data![index];
-                    final title = movie['title'];
+                    final title = movie['title']??movie['name'];
                     final overview = movie['overview'] == ''
                         ? 'Descrição indisponível'
                         : snapshot.data![index]['overview'];
-                    final releaseDate = movie['release_date'];
+                    final releaseDate = movie['release_date']??movie['first_air_date'];
                     final voteAverage = movie['vote_average'];
                     final img =
                         'https://image.tmdb.org/t/p/w400${movie['poster_path']}';
@@ -517,10 +534,10 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => DetailsPage(
-                                title: title,
-                                overview: overview,
+                                title: title??"Título indisponível",
+                                overview: overview??"Sinopse indisponível",
                                 releaseDate: releaseDate,
-                                voteAverage: voteAverage,
+                                voteAverage: voteAverage??"0.0",
                                 img: img,
                               ),
                             ),

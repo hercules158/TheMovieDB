@@ -1,6 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class MovieModel  {
  //Todo Ainda não foi imprementado, não sei como criar uma data class

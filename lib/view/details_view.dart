@@ -62,7 +62,7 @@ class _DetailsPage extends State<DetailsPage> {
     return Scaffold(
       backgroundColor: Colors.white12,
       appBar: AppBar(
-        title: const Text('Detalhes do filme'),
+        title: const Text('Detalhes'),
         centerTitle: true,
         actions: <Widget>[
           Padding(
