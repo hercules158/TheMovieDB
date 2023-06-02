@@ -215,7 +215,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               ListTile(
-                title: const Text('Tendencia da Última Semana (Filmes, Séries e Pessoas)'),
+                title: const Text('Tendencia da última semana (Filmes, Séries e Pessoas)'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -227,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               ListTile(
-                title: const Text('Minha lista de filmes'),
+                title: const Text('Minha lista de filmes e séries'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -506,6 +506,7 @@ class _HomePageState extends State<HomePage> {
                     final voteAverage = movie['vote_average'];
                     final img =
                         'https://image.tmdb.org/t/p/w400${movie['poster_path']}';
+                    final id = movie['id'].toString();
                     return Card(
                       color: Colors.black,
                       child: ListTile(
@@ -539,6 +540,7 @@ class _HomePageState extends State<HomePage> {
                                 releaseDate: releaseDate,
                                 voteAverage: voteAverage??"0.0",
                                 img: img,
+                                movieId: id
                               ),
                             ),
                           );

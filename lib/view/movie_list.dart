@@ -38,7 +38,7 @@ class _MoviesList extends State<MoviesList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Minha Lista De Filmes'),
+        title: const Text('Minha Lista De Filmes e Séries'),
         centerTitle: true,
       ),
       backgroundColor: Colors.grey[850],
@@ -74,7 +74,7 @@ class _MoviesList extends State<MoviesList> {
                             (ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content:
-                                        Text("O filme foi removido da sua lista"),
+                                        Text("Filme ou série foi removido(a) da sua lista"),
                                     duration: Duration(milliseconds: 1500))));
                             loadSharedPrefs();
                           },
