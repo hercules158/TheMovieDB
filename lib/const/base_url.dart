@@ -1,11 +1,11 @@
 class BaseURL {
   static const urlPopular =
-      'movie/popular?include_adult=false&api_key=cfc0ade742438ee84c9021437abb434c';
+      'movie/popular?include_adult=false&api_key=xxxxx';
   static const urlTrendingWeekMix =
-      'trending/all/week?api_key=cfc0ade742438ee84c9021437abb434c';
+      'trending/all/week?api_key=xxxxx';
   static const urlGenreHot =
-      "discover/movie?include_adult=false&api_key=cfc0ade742438ee84c9021437abb434c&with_genres=";
+      "discover/movie?include_adult=false&api_key=xxxxx&with_genres=";
   static const urlSearch =
-      'search/multi?api_key=cfc0ade742438ee84c9021437abb434c';
+      'search/multi?api_key=xxxxx';
   static const baseURL = 'https://api.themoviedb.org/3/';
 }
