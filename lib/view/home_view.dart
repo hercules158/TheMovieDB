@@ -74,6 +74,11 @@ class _HomePageState extends State<HomePage> {
           genreOrId = "Filmes de Horror";
         }
         break;
+      case 28:
+        {
+          genreOrId = "Filmes de Ação";
+        }
+        break;
       case 35:
         {
           genreOrId = "Filmes de Comédia";
@@ -139,6 +144,36 @@ class _HomePageState extends State<HomePage> {
           genreOrId = "Filmes de Guerra";
         }
         break;
+      case 10762:
+        {
+          genreOrId = "Infantil";
+        }
+        break;
+      case 10763:
+        {
+          genreOrId = "Notícias";
+        }
+        break;
+      case 10764:
+        {
+          genreOrId = "Reality";
+        }
+        break;
+      case 10766:
+        {
+          genreOrId = "Novelas";
+        }
+        break;
+      case 10767:
+        {
+          genreOrId = "Entrevista";
+        }
+        break;
+      case 10768:
+        {
+          genreOrId = "Guerra e Política";
+        }
+        break;
       case 10770:
         {
           genreOrId = "Filmes de Séries";
@@ -146,7 +181,7 @@ class _HomePageState extends State<HomePage> {
         break;
       default:
         {
-          genreOrId = "Filmes Em Alta";
+          genreOrId = "Filmes e Séries em Alta";
         }
     }
     return genreOrId;
@@ -203,7 +238,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               ListTile(
-                title: const Text('Filmes em alta'),
+                title: const Text('Filmes e Séries em Alta'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -215,14 +250,15 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               ListTile(
-                title: const Text('Tendencia da última semana (Filmes, Séries e Pessoas)'),
+                title: const Text(
+                    'Tendencia da última semana (Filmes, Séries e Pessoas)'),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const HomePage(
-                          genreCode: 69,
-                        )),
+                              genreCode: 69,
+                            )),
                   );
                 },
               ),
@@ -332,6 +368,18 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   ListTile(
+                    title: const Text('Entrevista'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage(
+                              genreCode: 10767,
+                            )),
+                      );
+                    },
+                  ),
+                  ListTile(
                     title: const Text('Família'),
                     onTap: () {
                       Navigator.push(
@@ -380,6 +428,18 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   ListTile(
+                    title: const Text('Filmes de Séries'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage(
+                                  genreCode: 10770,
+                                )),
+                      );
+                    },
+                  ),
+                  ListTile(
                     title: const Text('Guerra'),
                     onTap: () {
                       Navigator.push(
@@ -388,6 +448,18 @@ class _HomePageState extends State<HomePage> {
                             builder: (context) => const HomePage(
                                   genreCode: 10752,
                                 )),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Guerra e Política'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage(
+                              genreCode: 10768,
+                            )),
                       );
                     },
                   ),
@@ -411,6 +483,18 @@ class _HomePageState extends State<HomePage> {
                         MaterialPageRoute(
                             builder: (context) => const HomePage(
                                   genreCode: 27,
+                                )),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Infantil'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage(
+                                  genreCode: 10762,
                                 )),
                       );
                     },
@@ -440,6 +524,30 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   ListTile(
+                    title: const Text('Notícias'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage(
+                              genreCode: 10763,
+                            )),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Novelas'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage(
+                              genreCode: 10766,
+                            )),
+                      );
+                    },
+                  ),
+                  ListTile(
                     title: const Text('Romance'),
                     onTap: () {
                       Navigator.push(
@@ -447,6 +555,18 @@ class _HomePageState extends State<HomePage> {
                         MaterialPageRoute(
                             builder: (context) => const HomePage(
                                   genreCode: 10749,
+                                )),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Reality'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage(
+                                  genreCode: 10764,
                                 )),
                       );
                     },
@@ -498,15 +618,17 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   if (index < updateResponse.length) {
                     final movie = snapshot.data![index];
-                    final title = movie['title']??movie['name'];
+                    final title = movie['title'] ?? movie['name'];
                     final overview = movie['overview'] == ''
                         ? 'Descrição indisponível'
                         : snapshot.data![index]['overview'];
-                    final releaseDate = movie['release_date']??movie['first_air_date'];
+                    final releaseDate =
+                        movie['release_date'] ?? movie['first_air_date'];
                     final voteAverage = movie['vote_average'];
                     final img =
                         'https://image.tmdb.org/t/p/w400${movie['poster_path']}';
                     final id = movie['id'].toString();
+                    final genre = movie['genre_ids'];
                     return Card(
                       color: Colors.black,
                       child: ListTile(
@@ -520,27 +642,27 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         subtitle: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              overview,
-                              maxLines: 4,
-                              overflow: TextOverflow.fade,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(color: Colors.white),
-                            ),
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            overview,
+                            maxLines: 4,
+                            overflow: TextOverflow.fade,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: Colors.white),
                           ),
-
+                        ),
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => DetailsPage(
-                                title: title??"Título indisponível",
-                                overview: overview??"Sinopse indisponível",
+                                title: title ?? "Título indisponível",
+                                overview: overview ?? "Sinopse indisponível",
                                 releaseDate: releaseDate,
-                                voteAverage: voteAverage??"0.0",
+                                voteAverage: voteAverage ?? "0.0",
                                 img: img,
-                                movieId: id
+                                movieId: id,
+                                genre: genre,
                               ),
                             ),
                           );

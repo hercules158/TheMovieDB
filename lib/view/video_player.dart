@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/services.dart';
+import 'package:social_share/social_share.dart';
 
 class VideoPlayer extends StatefulWidget {
   final String id;
-
   const VideoPlayer({super.key, required this.id});
 
   @override
@@ -14,12 +14,14 @@ class VideoPlayer extends StatefulWidget {
 
 class _VideoPlayer extends State<VideoPlayer> {
   late YoutubePlayerController _controller;
+  final videoURL = 'http://www.youtube.com/watch?v=';
+  var shareIcon = Icons.share;
 
   @override
   void initState() {
     _controller = YoutubePlayerController(
         initialVideoId: widget.id,
-        flags: const YoutubePlayerFlags(autoPlay: false));
+        flags: const YoutubePlayerFlags(autoPlay: true));
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -38,6 +40,16 @@ class _VideoPlayer extends State<VideoPlayer> {
         title: const Text("Trailer"),
         toolbarHeight: 45,
         centerTitle: true,
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+                onTap: () {
+                  SocialShare.shareOptions(videoURL + widget.id);
+                },
+                child: Icon(size: 35, shareIcon)),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -61,14 +73,14 @@ class _VideoPlayer extends State<VideoPlayer> {
                 ),
                 builder: (context, player) {
                   return Padding(
-                    padding: const EdgeInsets.only(top: 25.0),
+                    padding: const EdgeInsets.only(top: 10.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           alignment: Alignment.center,
-                          width: width*0.99,
-                            height: height*0.78,
+                          width: width*0.98,
+                            height: height*0.74,
                             child: player),
                       ],
                     ),

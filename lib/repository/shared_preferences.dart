@@ -3,16 +3,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPref {
   save(String key, value) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, value);
+    prefs.setStringList(key, value);
   }
 
   read(String key) async {
     final prefs = await SharedPreferences.getInstance();
+    Set<List<String>> movieList = {};
+
     if (key == 'getAll') {
       var keys = prefs.getKeys();
-      return keys;
+      for (var element in keys) {
+        movieList.add(prefs.getStringList(element)!);
+      }
+      return movieList;
     } else {
-      return prefs.getString(key);
+      return prefs.getStringList(key) ?? [''];
     }
   }
 

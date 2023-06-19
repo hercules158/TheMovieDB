@@ -55,13 +55,15 @@ class _SearchPage extends State<SearchPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return const Center(
-                    child: Text('Erro ao carregar dados'),
+                    child: Text(
+                      'Erro ao carregar dados',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   );
                 }
-
                 if (snapshot.hasData) {
                   return ListView.builder(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       final movie = snapshot.data![index];
@@ -75,7 +77,8 @@ class _SearchPage extends State<SearchPage> {
                       final voteAverage = movie['vote_average'];
                       final img =
                           'https://image.tmdb.org/t/p/w400${movie['poster_path']}';
-                      final id = movie['id'];
+                      final id = movie['id'].toString();
+                      final genre = movie['genre_ids']??0;
                       return Card(
                         color: Colors.black,
                         child: ListTile(
@@ -83,13 +86,16 @@ class _SearchPage extends State<SearchPage> {
                             '$title',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                                decoration: TextDecoration.underline,
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
                           subtitle: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               overview,
+                              maxLines: 4,
+                              overflow: TextOverflow.fade,
                               textAlign: TextAlign.center,
                               style: const TextStyle(color: Colors.white),
                             ),
@@ -99,12 +105,14 @@ class _SearchPage extends State<SearchPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => DetailsPage(
-                                      title: title,
-                                      overview: overview,
-                                      releaseDate: releaseDate,
-                                      voteAverage: voteAverage,
-                                      img: img,
-                                      movieId: id)),
+                                        title: title,
+                                        overview: overview,
+                                        releaseDate: releaseDate,
+                                        voteAverage: voteAverage,
+                                        img: img,
+                                        movieId: id,
+                                        genre: genre,
+                                      )),
                             );
                           },
                         ),
@@ -131,16 +139,3 @@ class _SearchPage extends State<SearchPage> {
     );
   }
 }
-
-/*
-TextFormField(
-          onChanged: (value) {
-            _updateSearch(value);
-          },
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Pesquisar',
-            prefixIcon: Icon(Icons.search),
-          ),
-        ),
-*/

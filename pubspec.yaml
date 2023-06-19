@@ -14,6 +14,7 @@ dependencies:
   http: 0.13.5
   intl: ^0.17.0
   youtube_player_flutter: ^8.1.2
+  social_share: ^2.3.1
 
 dev_dependencies:
   flutter_test:

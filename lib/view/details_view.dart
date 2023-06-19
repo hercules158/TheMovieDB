@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:movies/repository/api_get_data.dart';
 import 'package:movies/repository/shared_preferences.dart';
+import 'package:movies/util/id_converter.dart';
 import 'package:movies/view/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -12,6 +13,7 @@ class DetailsPage extends StatefulWidget {
   final dynamic voteAverage;
   final String img;
   final String movieId;
+  final dynamic genre;
 
   const DetailsPage({
     super.key,
@@ -21,6 +23,7 @@ class DetailsPage extends StatefulWidget {
     required this.voteAverage,
     required this.img,
     required this.movieId,
+    required this.genre,
   });
 
   @override
@@ -28,7 +31,7 @@ class DetailsPage extends StatefulWidget {
 }
 
 class DetailsState extends ChangeNotifier {
-  String id = '_ma8MMmx72A';
+  String id = '';
 
   void setId(idCode) {
     id = idCode;
@@ -40,12 +43,13 @@ class _DetailsPage extends State<DetailsPage> {
   SharedPref sharedPref = SharedPref();
   IconData listIcon = Icons.playlist_add_circle;
   var apiGetData = HomeRepository();
-  var movieName;
-  var movieLoad;
+  var movieLoad = [''];
   final videoURL = 'http://www.youtube.com/watch?v=';
   List<dynamic> response = [];
   final DetailsState _mControler = DetailsState();
   late YoutubePlayerController _controller;
+  late final List<String> genreList;
+  final idConverter = IdConverter();
 
   @override
   void initState() {
@@ -56,16 +60,17 @@ class _DetailsPage extends State<DetailsPage> {
         initialVideoId: _mControler.id,
         flags: const YoutubePlayerFlags(autoPlay: false));
     _mControler.addListener(_idListener);
+    genreList = idConverter.convertId(widget.genre);
   }
 
   loadSharedPrefs() async {
     try {
-      movieName = await sharedPref.read(widget.title);
+      movieLoad = await sharedPref.read(widget.title);
       setState(() {
-        movieLoad = movieName;
+        movieLoad;
       });
 
-      if (movieLoad != widget.title) {
+      if (movieLoad[0] != widget.title) {
         setState(() {
           listIcon = Icons.playlist_add_circle;
         });
@@ -91,6 +96,16 @@ class _DetailsPage extends State<DetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> detailsList = [
+      widget.title,
+      widget.voteAverage.toString(),
+      widget.movieId.toString(),
+      idConverter.convertId(widget.genre).toString(),
+      widget.releaseDate.toString(),
+      widget.overview,
+      widget.img.toString()
+    ];
+
     return Scaffold(
       backgroundColor: Colors.white12,
       appBar: AppBar(
@@ -102,8 +117,8 @@ class _DetailsPage extends State<DetailsPage> {
             child: GestureDetector(
                 onTap: () {
                   //Lógica para mudar o desenho do ícone
-                  if (movieLoad != widget.title) {
-                    sharedPref.save(widget.title, widget.title);
+                  if (movieLoad[0] != widget.title) {
+                    sharedPref.save(widget.title, detailsList);
                     (ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Adicionado à sua lista"),
                         duration: Duration(milliseconds: 1000))));
@@ -142,6 +157,23 @@ class _DetailsPage extends State<DetailsPage> {
                   ),
                 ],
               ),
+              Column(
+                children: [
+                  Text(
+                    //To work around the problem of receive a big string and not
+                    // a list of string when the program use SharedPreferences
+                    // to load favorite movies, I had to make the logic below.
+                    // Because We can't save in SharedPreferences a List of a
+                    // List of String, and I had to word with a List of List of
+                    // String.
+                    genreList[0].length == 1
+                        ? genreList.join()
+                        : genreList.join(", "),
+                    style: const TextStyle(fontSize: 14, color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
               Column(children: [
                 const Padding(padding: EdgeInsets.all(8.0)),
                 Text(
@@ -171,7 +203,8 @@ class _DetailsPage extends State<DetailsPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left:100.0,right: 100,top: 40,bottom: 20),
+                padding: const EdgeInsets.only(
+                    left: 50.0, right: 50, top: 10, bottom: 20),
                 child: ListTile(
                   title: const Text("Trailer",
                       textAlign: TextAlign.center,
@@ -213,4 +246,3 @@ class _DetailsPage extends State<DetailsPage> {
         flags: const YoutubePlayerFlags(autoPlay: false));
   }
 }
-
