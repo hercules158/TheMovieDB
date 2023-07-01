@@ -20,6 +20,8 @@ class MovieModel {
   static const releaseDate = 4;
   static const overview = 5;
   static const img = 6;
+  static const mediaType = 7;
+
 }
 
 class _MoviesList extends State<MoviesList> {
@@ -86,7 +88,8 @@ class _MoviesList extends State<MoviesList> {
                                         overview: movieInfo.elementAt(
                                             index)[MovieModel.overview],
                                         img: movieInfo.elementAt(
-                                            index)[MovieModel.img])));
+                                            index)[MovieModel.img],
+                                    mediaType: movieInfo.elementAt(index)[MovieModel.mediaType])));
                           },
                           child: Text(
                             movieInfo.elementAt(index)[0],

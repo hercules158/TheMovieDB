@@ -79,6 +79,7 @@ class _SearchPage extends State<SearchPage> {
                           'https://image.tmdb.org/t/p/w400${movie['poster_path']}';
                       final id = movie['id'].toString();
                       final genre = movie['genre_ids']??0;
+                      final mediaType = movie['media_type'];
                       return Card(
                         color: Colors.black,
                         child: ListTile(
@@ -112,6 +113,7 @@ class _SearchPage extends State<SearchPage> {
                                         img: img,
                                         movieId: id,
                                         genre: genre,
+                                    mediaType: mediaType,
                                       )),
                             );
                           },

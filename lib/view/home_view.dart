@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movies/repository/api_get_data.dart';
 import 'package:movies/view/details_view.dart';
 import 'package:movies/view/movie_list.dart';
+import '../model/home_model.dart';
 import 'search_view.dart';
 
 class Results {
@@ -51,52 +52,52 @@ class _HomePageState extends State<HomePage> {
     switch (genreCode) {
       case 12:
         {
-          genreOrId = "Filmes de Aventura";
+          genreOrId = "Aventura";
         }
         break;
       case 14:
         {
-          genreOrId = "Filmes de Fantasia";
+          genreOrId = "Fantasia";
         }
         break;
       case 16:
         {
-          genreOrId = "Filmes de Animação";
+          genreOrId = "Animação";
         }
         break;
       case 18:
         {
-          genreOrId = "Filmes de Drama";
+          genreOrId = "Drama";
         }
         break;
       case 27:
         {
-          genreOrId = "Filmes de Horror";
+          genreOrId = "Horror";
         }
         break;
       case 28:
         {
-          genreOrId = "Filmes de Ação";
+          genreOrId = "Ação";
         }
         break;
       case 35:
         {
-          genreOrId = "Filmes de Comédia";
+          genreOrId = "Comédia";
         }
         break;
       case 36:
         {
-          genreOrId = "Filmes de História";
+          genreOrId = "História";
         }
         break;
       case 37:
         {
-          genreOrId = "Filmes de Faroeste";
+          genreOrId = "Faroeste";
         }
         break;
       case 53:
         {
-          genreOrId = "Filmes Thriller";
+          genreOrId = "Thriller";
         }
         break;
       case 69:
@@ -106,7 +107,7 @@ class _HomePageState extends State<HomePage> {
         break;
       case 80:
         {
-          genreOrId = "Filmes de Crime";
+          genreOrId = "Crime";
         }
         break;
       case 99:
@@ -116,32 +117,32 @@ class _HomePageState extends State<HomePage> {
         break;
       case 878:
         {
-          genreOrId = "Filmes Ficção Científica";
+          genreOrId = "Ficção Científica";
         }
         break;
       case 9648:
         {
-          genreOrId = "Filmes de Mistério";
+          genreOrId = "Mistério";
         }
         break;
       case 10402:
         {
-          genreOrId = "Filmes Musicais";
+          genreOrId = "Musicais";
         }
         break;
       case 10749:
         {
-          genreOrId = "Filmes de Romance";
+          genreOrId = "Romance";
         }
         break;
       case 10751:
         {
-          genreOrId = "Filmes para Família";
+          genreOrId = "Para a Família";
         }
         break;
       case 10752:
         {
-          genreOrId = "Filmes de Guerra";
+          genreOrId = "Guerra";
         }
         break;
       case 10762:
@@ -230,7 +231,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: const Center(
                     child: Text(
-                      'Filmes',
+                      'Filmes & Séries',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white),
                     ),
@@ -374,8 +375,8 @@ class _HomePageState extends State<HomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const HomePage(
-                              genreCode: 10767,
-                            )),
+                                  genreCode: 10767,
+                                )),
                       );
                     },
                   ),
@@ -458,8 +459,8 @@ class _HomePageState extends State<HomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const HomePage(
-                              genreCode: 10768,
-                            )),
+                                  genreCode: 10768,
+                                )),
                       );
                     },
                   ),
@@ -530,8 +531,8 @@ class _HomePageState extends State<HomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const HomePage(
-                              genreCode: 10763,
-                            )),
+                                  genreCode: 10763,
+                                )),
                       );
                     },
                   ),
@@ -542,8 +543,8 @@ class _HomePageState extends State<HomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const HomePage(
-                              genreCode: 10766,
-                            )),
+                                  genreCode: 10766,
+                                )),
                       );
                     },
                   ),
@@ -616,24 +617,14 @@ class _HomePageState extends State<HomePage> {
                 controller: scrollController,
                 itemCount: updateResponse.length + 1,
                 itemBuilder: (context, index) {
+
                   if (index < updateResponse.length) {
-                    final movie = snapshot.data![index];
-                    final title = movie['title'] ?? movie['name'];
-                    final overview = movie['overview'] == ''
-                        ? 'Descrição indisponível'
-                        : snapshot.data![index]['overview'];
-                    final releaseDate =
-                        movie['release_date'] ?? movie['first_air_date'];
-                    final voteAverage = movie['vote_average'];
-                    final img =
-                        'https://image.tmdb.org/t/p/w400${movie['poster_path']}';
-                    final id = movie['id'].toString();
-                    final genre = movie['genre_ids'];
+                    MyMovieModel movieModel = MyMovieModel.fromJson(snapshot.data![index]);
                     return Card(
                       color: Colors.black,
                       child: ListTile(
                         title: Text(
-                          '$title',
+                          '${movieModel.title}',
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             color: Colors.white,
@@ -644,7 +635,7 @@ class _HomePageState extends State<HomePage> {
                         subtitle: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
-                            overview,
+                            movieModel.overview == "" ? "Sinopse indisponível" : movieModel.overview,
                             maxLines: 4,
                             overflow: TextOverflow.fade,
                             textAlign: TextAlign.center,
@@ -656,13 +647,14 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => DetailsPage(
-                                title: title ?? "Título indisponível",
-                                overview: overview ?? "Sinopse indisponível",
-                                releaseDate: releaseDate,
-                                voteAverage: voteAverage ?? "0.0",
-                                img: img,
-                                movieId: id,
-                                genre: genre,
+                                title: movieModel.title ?? "Título indisponível",
+                                overview:  movieModel.overview == "" ? "Sinopse indisponível" : movieModel.overview,
+                                releaseDate: movieModel.releaseDate,
+                                voteAverage: movieModel.voteAverage ?? "0.0",
+                                img: 'https://image.tmdb.org/t/p/w400${movieModel.img}',
+                                movieId: movieModel.id,
+                                genre: movieModel.genre,
+                                mediaType: movieModel.mediaType,
                               ),
                             ),
                           );

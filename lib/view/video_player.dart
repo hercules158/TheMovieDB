@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +5,7 @@ import 'package:social_share/social_share.dart';
 
 class VideoPlayer extends StatefulWidget {
   final String id;
+
   const VideoPlayer({super.key, required this.id});
 
   @override
@@ -31,8 +31,10 @@ class _VideoPlayer extends State<VideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    double height =
+        MediaQuery.of(context).size.height; //gets current screen height
+    double width =
+        MediaQuery.of(context).size.width; //gets current screen width
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -78,9 +80,9 @@ class _VideoPlayer extends State<VideoPlayer> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          alignment: Alignment.center,
-                          width: width*0.98,
-                            height: height*0.74,
+                            alignment: Alignment.center,
+                            width: width * 0.98,
+                            height: height * 0.74,
                             child: player),
                       ],
                     ),

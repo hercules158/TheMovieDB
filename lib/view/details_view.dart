@@ -12,8 +12,10 @@ class DetailsPage extends StatefulWidget {
   final String title;
   final dynamic voteAverage;
   final String img;
-  final String movieId;
+  final dynamic movieId;
   final dynamic genre;
+  final String mediaType;
+
 
   const DetailsPage({
     super.key,
@@ -24,6 +26,7 @@ class DetailsPage extends StatefulWidget {
     required this.img,
     required this.movieId,
     required this.genre,
+    required this.mediaType,
   });
 
   @override
@@ -87,7 +90,7 @@ class _DetailsPage extends State<DetailsPage> {
   }
 
   getURLId() async {
-    response.add(await apiGetData.fetchVideo(widget.movieId));
+    response.add(await apiGetData.fetchVideo(widget.movieId.toString(), widget.mediaType));
     var responseObject = response.first;
     responseObject = responseObject[0];
     responseObject = responseObject['key'].toString();
@@ -163,8 +166,8 @@ class _DetailsPage extends State<DetailsPage> {
                     //To work around the problem of receive a big string and not
                     // a list of string when the program use SharedPreferences
                     // to load favorite movies, I had to make the logic below.
-                    // Because We can't save in SharedPreferences a List of a
-                    // List of String, and I had to word with a List of List of
+                    // Because We can't save in SharedPreferences a List of
+                    // List of String, and I had to word with a List of List
                     // String.
                     genreList[0].length == 1
                         ? genreList.join()

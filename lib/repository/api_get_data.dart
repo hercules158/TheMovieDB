@@ -16,14 +16,21 @@ class HomeRepository {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         results.addAll(json['results']);
+        for (var element = 0; element < results.length; element++) {
+          results[element].addAll({"media_type": "movie"});
+        }
       } else {
         throw Exception('Erro ao carregar dados do Servidor!');
       }
       response = await http
           .get(Uri.parse(BaseURL.baseURL + BaseURL.urlTvPopular + secURL));
       if (response.statusCode == 200) {
+        var resultsLength = results.length;
         final json = jsonDecode(response.body);
         results.addAll(json['results']);
+        for (var element = resultsLength; element < results.length; element++) {
+          results[element].addAll({"media_type": "tv"});
+        }
       } else {
         throw Exception('Erro ao carregar dados do Servidor!');
       }
@@ -43,7 +50,7 @@ class HomeRepository {
       }
     } else {
       var secURL = '&language=pt-BR&page=$numPage';
-      if(TvGenre.genreCodes["tv"]!.contains(genreCode.toString())){
+      if (TvGenre.genreCodes["tv"]!.contains(genreCode.toString())) {
         var response = await http.get(Uri.parse(BaseURL.baseURL +
             BaseURL.urlGenreHotTv +
             genreCode.toString() +
@@ -55,7 +62,7 @@ class HomeRepository {
         } else {
           throw Exception('Erro ao carregar dados do Servidor!');
         }
-      }else {
+      } else {
         var response = await http.get(Uri.parse(BaseURL.baseURL +
             BaseURL.urlGenreHotMovie +
             genreCode.toString() +
@@ -70,6 +77,7 @@ class HomeRepository {
       }
     }
   }
+
   Future<List> fetchByName(String searchName) async {
     var secURL = '&query=';
     var response = await http.get(Uri.parse(
@@ -84,8 +92,15 @@ class HomeRepository {
     }
   }
 
-  Future<List> fetchVideo(String movieId) async {
-    var midURL = 'movie/';
+  Future<List> fetchVideo(String movieId, String mediaType) async {
+    var midURL = '';
+
+    if (mediaType == "movie") {
+      midURL = 'movie/';
+    } else {
+      midURL = 'tv/';
+    }
+
     var secURL =
         '/videos?language=pt-BR&api_key=cfc0ade742438ee84c9021437abb434c';
     var response =

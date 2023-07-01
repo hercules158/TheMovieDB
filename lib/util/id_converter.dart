@@ -4,6 +4,11 @@ class IdConverter {
 
     for (var i = 0; i < genreList.length; i++) {
       switch (genreList[i]) {
+        case 0:
+          {
+            genreOrId.add("Indisponível");
+          }
+          break;
         case 12:
           {
             genreOrId.add("Aventura");
@@ -148,11 +153,15 @@ class IdConverter {
           }
       }
     }
-    //This logic solved the problem of printing the [] from my sting list
-    if (genreOrId.elementAt(0) == "[") {
-      genreOrId.removeAt(0);
-      genreOrId.removeLast();
-    }
+    //This logic solved the problem of printing the [] from my string list
+        if (genreOrId.isNotEmpty){
+      if (genreOrId.elementAt(0) == "[") {
+        genreOrId.removeAt(0);
+        genreOrId.removeLast();
+      }
+    } else {
+          genreOrId = ["Gêneros indisponíveis"];
+        }
     return genreOrId;
   }
 }
