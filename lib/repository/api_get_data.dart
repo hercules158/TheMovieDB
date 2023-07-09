@@ -57,7 +57,11 @@ class HomeRepository {
             secURL));
         if (response.statusCode == 200) {
           final json = jsonDecode(response.body);
+          var resultsLength = results.length;
           results.addAll(json['results']);
+          for (var element = resultsLength; element < results.length; element++) {
+            results[element].addAll({"media_type": "serie"});
+          }
           return results;
         } else {
           throw Exception('Erro ao carregar dados do Servidor!');
@@ -69,7 +73,11 @@ class HomeRepository {
             secURL));
         if (response.statusCode == 200) {
           final json = jsonDecode(response.body);
+          var resultsLength = results.length;
           results.addAll(json['results']);
+          for (var element = resultsLength; element < results.length; element++) {
+            results[element].addAll({"media_type": "movie"});
+          }
           return results;
         } else {
           throw Exception('Erro ao carregar dados do Servidor!');
@@ -95,7 +103,7 @@ class HomeRepository {
   Future<List> fetchVideo(String movieId, String mediaType) async {
     var midURL = '';
 
-    if (mediaType == "movie") {
+    if (mediaType == "movie" || mediaType == '') {
       midURL = 'movie/';
     } else {
       midURL = 'tv/';

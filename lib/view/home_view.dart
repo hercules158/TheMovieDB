@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movies/repository/api_get_data.dart';
 import 'package:movies/view/details_view.dart';
 import 'package:movies/view/movie_list.dart';
-import '../model/home_model.dart';
+import '../model/movie_model.dart';
 import 'search_view.dart';
 
 class Results {

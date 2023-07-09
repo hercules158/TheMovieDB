@@ -162,6 +162,20 @@ class _DetailsPage extends State<DetailsPage> {
               ),
               Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Text(
+                      widget.mediaType == 'movie' ? 'Filme' : 'Serie',
+                      style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
                   Text(
                     //To work around the problem of receive a big string and not
                     // a list of string when the program use SharedPreferences

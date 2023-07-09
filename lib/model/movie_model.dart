@@ -23,12 +23,13 @@ class MyMovieModel {
     return MyMovieModel(
       title: json['title'] ?? json['name'],
       overview: json['overview'] ?? 'Sinopse indisponível',
-      releaseDate: json['release_date'] ?? '0001-01-01',
+      releaseDate: json['release_date'] ?? json['first_air_date'] ?? '0001-01-01',
       voteAverage: json['vote_average'],
       img: json['poster_path'],
       id: json['id'],
       genre: json['genre_ids'],
-      mediaType: json['media_type']);
+      mediaType: json['media_type'] ?? '');
   }
+
 }
 

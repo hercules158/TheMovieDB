@@ -26,3 +26,4 @@ class SharedPref {
     prefs.remove(key);
   }
 }
+
