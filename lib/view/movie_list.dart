@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/view/details_view.dart';
 
@@ -21,7 +20,6 @@ class MovieModel {
   static const overview = 5;
   static const img = 6;
   static const mediaType = 7;
-
 }
 
 class _MoviesList extends State<MoviesList> {
@@ -35,6 +33,8 @@ class _MoviesList extends State<MoviesList> {
         movieInfo;
       });
     } catch (exception) {
+      if (!context.mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Nothing found!"),
           duration: Duration(milliseconds: 500)));
@@ -87,13 +87,13 @@ class _MoviesList extends State<MoviesList> {
                                             index)[MovieModel.releaseDate],
                                         overview: movieInfo.elementAt(
                                             index)[MovieModel.overview],
-                                        img: movieInfo.elementAt(
-                                            index)[MovieModel.img],
-                                    mediaType: movieInfo.elementAt(index)[MovieModel.mediaType])));
+                                        img: movieInfo
+                                            .elementAt(index)[MovieModel.img],
+                                        mediaType: movieInfo.elementAt(index)[MovieModel.mediaType])));
                           },
                           child: Text(
                             movieInfo.elementAt(index)[0],
-                            textScaleFactor: 1.2,
+                            textScaler: const TextScaler.linear(1.2),
                             textAlign: TextAlign.left,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
@@ -134,7 +134,7 @@ class _MoviesList extends State<MoviesList> {
                 "Sem títulos em sua lista!",
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white),
-                textScaleFactor: 1.4,
+                textScaler: TextScaler.linear(1.4),
               ),
             );
           } else {

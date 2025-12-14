@@ -13,10 +13,18 @@ class _SearchPage extends State<SearchPage> {
   final myController = TextEditingController();
 
   dynamic searchResponse;
+  bool isLoading = true;
 
-  _updateSearch(val) {
+  Future _updateSearch(val) async {
     setState(() {
-      searchResponse = HomeRepository().fetchByName(val);
+      isLoading = true;
+    });
+
+    List<dynamic> response = await HomeRepository().fetchByName(val);
+
+    setState(() {
+      searchResponse = response;
+      isLoading = false;
     });
   }
 
@@ -50,35 +58,31 @@ class _SearchPage extends State<SearchPage> {
             ),
           ),
           Expanded(
-            child: FutureBuilder<List>(
-              future: searchResponse,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return const Center(
-                    child: Text(
-                      'Erro ao carregar dados',
-                      style: TextStyle(color: Colors.white),
+            child: isLoading
+                ? Center(
+                    child: SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: Image.asset('assets/images/duck_loading.gif'),
                     ),
-                  );
-                }
-                if (snapshot.hasData) {
-                  return ListView.builder(
+                  )
+                : ListView.builder(
                     padding: const EdgeInsets.all(8.0),
-                    itemCount: snapshot.data!.length,
+                    itemCount: searchResponse.length,
                     itemBuilder: (context, index) {
-                      final movie = snapshot.data![index];
+                      final movie = searchResponse[index];
                       final title = movie['title'] ?? movie['name'];
                       //Teste com operador ternário para saber se temos ou não uma descrição
                       final overview = movie['overview'] == ''
                           ? 'Descrição indisponível'
-                          : snapshot.data![index]['overview'];
+                          : searchResponse[index]['overview'];
                       final releaseDate =
                           movie['release_date'] ?? movie['first_air_date'];
                       final voteAverage = movie['vote_average'];
                       final img =
                           'https://image.tmdb.org/t/p/w400${movie['poster_path']}';
                       final id = movie['id'].toString();
-                      final genre = movie['genre_ids']??0;
+                      final genre = movie['genre_ids'] ?? 0;
                       final mediaType = movie['media_type'];
                       return Card(
                         color: Colors.black,
@@ -94,7 +98,7 @@ class _SearchPage extends State<SearchPage> {
                           subtitle: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              overview,
+                              overview ?? '',
                               maxLines: 4,
                               overflow: TextOverflow.fade,
                               textAlign: TextAlign.center,
@@ -113,28 +117,14 @@ class _SearchPage extends State<SearchPage> {
                                         img: img,
                                         movieId: id,
                                         genre: genre,
-                                    mediaType: mediaType,
+                                        mediaType: mediaType,
                                       )),
                             );
                           },
                         ),
                       );
                     },
-                  );
-                }
-                if (!snapshot.hasData) {
-                  return const Center(
-                      child: Text(
-                    'Pesquise um filme',
-                    style: TextStyle(color: Colors.white),
-                  ));
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
+                  ),
           ),
         ],
       ),

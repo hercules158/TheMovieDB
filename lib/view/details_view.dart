@@ -16,7 +16,6 @@ class DetailsPage extends StatefulWidget {
   final dynamic genre;
   final String mediaType;
 
-
   const DetailsPage({
     super.key,
     required this.title,
@@ -50,6 +49,7 @@ class _DetailsPage extends State<DetailsPage> {
   final videoURL = 'http://www.youtube.com/watch?v=';
   List<dynamic> response = [];
   final DetailsState _mControler = DetailsState();
+  // ignore: unused_field
   late YoutubePlayerController _controller;
   late final List<String> genreList;
   final idConverter = IdConverter();
@@ -82,7 +82,9 @@ class _DetailsPage extends State<DetailsPage> {
           listIcon = Icons.playlist_add_check_circle_rounded;
         });
       }
-    } catch (Exception) {
+    } catch (e) {
+      if (!context.mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Nothing found!"),
           duration: Duration(milliseconds: 500)));
@@ -90,7 +92,8 @@ class _DetailsPage extends State<DetailsPage> {
   }
 
   getURLId() async {
-    response.add(await apiGetData.fetchVideo(widget.movieId.toString(), widget.mediaType));
+    response.add(await apiGetData.fetchVideo(
+        widget.movieId.toString(), widget.mediaType));
     var responseObject = response.first;
     responseObject = responseObject[0];
     responseObject = responseObject['key'].toString();
@@ -106,7 +109,8 @@ class _DetailsPage extends State<DetailsPage> {
       idConverter.convertId(widget.genre).toString(),
       widget.releaseDate.toString(),
       widget.overview,
-      widget.img.toString()
+      widget.img.toString(),
+      widget.mediaType
     ];
 
     return Scaffold(
@@ -166,9 +170,7 @@ class _DetailsPage extends State<DetailsPage> {
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Text(
                       widget.mediaType == 'movie' ? 'Filme' : 'Serie',
-                      style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white),
+                      style: const TextStyle(fontSize: 14, color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
                   ),

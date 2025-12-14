@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/services.dart';
-import 'package:social_share/social_share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class VideoPlayer extends StatefulWidget {
   final String id;
@@ -47,7 +47,8 @@ class _VideoPlayer extends State<VideoPlayer> {
             padding: const EdgeInsets.only(right: 20.0),
             child: GestureDetector(
                 onTap: () {
-                  SocialShare.shareOptions(videoURL + widget.id);
+                  SharePlus.instance
+                      .share(ShareParams(text: videoURL + widget.id));
                 },
                 child: Icon(size: 35, shareIcon)),
           ),

@@ -196,13 +196,15 @@ class _HomePageState extends State<HomePage> {
     updateHome(page, genreCode);
   }
 
-  Future<void> updateHome(int page, int genreCode) async {
+  Future<List> updateHome(int page, int genreCode) async {
     homeState.setLoading(true);
+    var response = await homeRepository.fetch(page, genreCode);
     updateResponse.addAll(await homeRepository.fetch(page, genreCode));
     setState(() {
       updateResponse;
       homeState.setLoading(false);
     });
+    return response;
   }
 
   @override
@@ -602,82 +604,96 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         backgroundColor: Colors.grey[850],
-        body: FutureBuilder<List>(
-          initialData: updateResponse,
-          //initialData: funciona para List, future: só aceita Future<List>
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const Center(
-                child: Text('Erro ao carregar dados'),
-              );
-            }
-            if (snapshot.hasData) {
-              return ListView.builder(
-                padding: const EdgeInsets.all(8.0),
-                controller: scrollController,
-                itemCount: updateResponse.length + 1,
-                itemBuilder: (context, index) {
-
-                  if (index < updateResponse.length) {
-                    MyMovieModel movieModel = MyMovieModel.fromJson(snapshot.data![index]);
-                    return Card(
-                      color: Colors.black,
-                      child: ListTile(
-                        title: Text(
-                          '${movieModel.title}',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 19,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            movieModel.overview == "" ? "Sinopse indisponível" : movieModel.overview,
-                            maxLines: 4,
-                            overflow: TextOverflow.fade,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailsPage(
-                                title: movieModel.title ?? "Título indisponível",
-                                overview:  movieModel.overview == "" ? "Sinopse indisponível" : movieModel.overview,
-                                releaseDate: movieModel.releaseDate,
-                                voteAverage: movieModel.voteAverage ?? "0.0",
-                                img: 'https://image.tmdb.org/t/p/w400${movieModel.img}',
-                                movieId: movieModel.id,
-                                genre: movieModel.genre,
-                                mediaType: movieModel.mediaType,
+        body: homeState.isLoading
+            ? Center(
+                child: SizedBox(
+                  width: 150,
+                  height: 150,
+                  child: Image.asset('assets/images/duck_loading_shaking.gif'),
+                ),
+              )
+            : FutureBuilder<List>(
+                future: updateHome(page, genreCode),
+                initialData: updateResponse,
+                //initialData: funciona para List, future: só aceita Future<List>
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return const Center(
+                      child: Text('Erro ao carregar dados'),
+                    );
+                  }
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(8.0),
+                      controller: scrollController,
+                      itemCount: updateResponse.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index < updateResponse.length) {
+                          MyMovieModel movieModel =
+                              MyMovieModel.fromJson(snapshot.data![index]);
+                          return Card(
+                            color: Colors.black,
+                            child: ListTile(
+                              title: Text(
+                                '${movieModel.title}',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  movieModel.overview == ""
+                                      ? "Sinopse indisponível"
+                                      : movieModel.overview,
+                                  maxLines: 4,
+                                  overflow: TextOverflow.fade,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailsPage(
+                                      title: movieModel.title ??
+                                          "Título indisponível",
+                                      overview: movieModel.overview == ""
+                                          ? "Sinopse indisponível"
+                                          : movieModel.overview,
+                                      releaseDate: movieModel.releaseDate,
+                                      voteAverage:
+                                          movieModel.voteAverage ?? "0.0",
+                                      img:
+                                          'https://image.tmdb.org/t/p/w400${movieModel.img}',
+                                      movieId: movieModel.id,
+                                      genre: movieModel.genre,
+                                      mediaType: movieModel.mediaType,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           );
-                        },
-                      ),
+                        }
+                        return null;
+                      },
                     );
                   } else {
-                    return const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: CircularProgressIndicator(),
+                    return Center(
+                      child: SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: Image.asset('assets/images/duck_loading.gif'),
                       ),
                     );
                   }
                 },
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ));
+              ));
   }
 
   Future<void> _scrollListener() async {
