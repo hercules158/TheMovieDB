@@ -40,6 +40,8 @@ class _VideoPlayer extends State<VideoPlayer> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text("Trailer"),
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.deepOrange,
         toolbarHeight: 45,
         centerTitle: true,
         actions: <Widget>[

@@ -53,6 +53,8 @@ class _MoviesList extends State<MoviesList> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Minha Lista De Filmes e Séries'),
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.deepOrange,
         centerTitle: true,
       ),
       backgroundColor: Colors.grey[850],

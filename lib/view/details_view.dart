@@ -117,6 +117,8 @@ class _DetailsPage extends State<DetailsPage> {
       backgroundColor: Colors.white12,
       appBar: AppBar(
         title: const Text('Detalhes'),
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.deepOrange,
         centerTitle: true,
         actions: <Widget>[
           Padding(

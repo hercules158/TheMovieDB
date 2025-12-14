@@ -213,6 +213,8 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text(genreOrId),
           centerTitle: true,
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.deepOrange,
         ),
         drawer: Drawer(
           child: ListView(

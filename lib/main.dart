@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
       title: "Filmes",
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
+        secondaryHeaderColor: Colors.deepOrange,
       ),
       home: const HomePage(genreCode: 0),
       debugShowCheckedModeBanner: false,
